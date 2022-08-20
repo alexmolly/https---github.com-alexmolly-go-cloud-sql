@@ -1,12 +1,13 @@
 package controller
 
 import (
-	"github.com/arifluthfi16/gomvcboilerplate/services"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/alexmolly/gomvcboilerplate/services"
+	"github.com/gin-gonic/gin"
 )
 
-type ExampleController struct {}
+type ExampleController struct{}
 
 func (controller ExampleController) ExampleHandler(c *gin.Context) {
 	var responseString = services.ExampleService.SayHi()
@@ -17,7 +18,7 @@ func (controller ExampleController) ExampleHandler(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, response)
 }
 
-func (controller ExampleController) CheckDBConnection (c *gin.Context) {
+func (controller ExampleController) CheckDBConnection(c *gin.Context) {
 	var responseString = "Connected to DB"
 	var sqlDB, _ = services.ExampleService.DB.DB()
 	if err := sqlDB.Ping(); err != nil {
@@ -29,4 +30,3 @@ func (controller ExampleController) CheckDBConnection (c *gin.Context) {
 	}
 	c.AbortWithStatusJSON(http.StatusOK, response)
 }
-

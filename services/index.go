@@ -1,14 +1,14 @@
 package services
 
 import (
-	"github.com/arifluthfi16/gomvcboilerplate/services/example"
+	"github.com/alexmolly/gomvcboilerplate/services/example"
 	"gorm.io/gorm"
 )
 
 var (
-	ExampleService 	example.ExampleService
+	ExampleService example.ExampleService
 )
 
-func InjectDBIntoServices (db *gorm.DB) {
-	ExampleService.DB 	= db
+func InjectDBIntoServices(db *gorm.DB) {
+	ExampleService.DB = db
 }

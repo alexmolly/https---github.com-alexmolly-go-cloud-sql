@@ -1,0 +1,106 @@
+version: "3"
+
+vars:
+    DB_URL: postgresql://root:secret@34.135.173.84:5432/simple_bank
+
+tasks:
+
+
+    createdb: 
+        desc: Docker - create example_db db
+        cmds:
+        - docker exec -it postgres14 createdb --username=root --owner=root example_db
+
+    build-app:
+        desc: Docker - create example_db app
+        cmds:
+        - docker build --tag gcr.io/my-linux-project-348713/go-cloudrun-cloudsql:v1 .
+
+    push-app:
+        desc: Docker - create example_db app
+        cmds:
+        - docker push gcr.io/my-linux-project-348713/go-cloudrun-cloudsql:v1
+
+
+    dropdb:
+        desc: Docker - Drop simple_bank db
+        cmds:
+        - docker exec -it postgres14 dropdb simple_bank
+
+
+    lv: 
+        desc: List docker host volume path
+        cmds:
+
+        - sudo ls -l /var/lib/docker/volumes/postgres/_data
+
+    # mup1:
+    #     desc: Migrate up file 000001_init_schema.up.sql
+    #     cmds:
+    #     - migrate -path db/migration -database "{{.DB_URL}}" -verbose up
+
+    # mup2:
+    #     desc: Migrate up file 000002_add_users
+    #     cmds:
+    #     - migrate -path db/migration -database "{{.DB_URL}}" -verbose up 1
+
+
+    # mdown1:
+    #     desc: Migrate down file 000001_init_schema.down.sql
+    #     cmds:
+    #     - migrate -path db/migration -database "{{.DB_URL}}" -verbose down
+
+
+    # mdown2:
+    #     desc: Migrate down file 000002_add_users
+    #     cmds:
+    #     - migrate -path db/migration -database "{{.DB_URL}}" -verbose down 1  
+
+    postgres:
+        desc: Docker - Start Postgress db
+        cmds:
+        - docker run --rm --name postgres14 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14-alpine
+
+    server:
+        desc: Start server
+        cmds:
+        - go run main.go
+
+    shell:
+        desc: Docker - Shell into container
+        cmds:
+        - docker exec -it postgres14 /bin/sh
+
+
+    # sqlc: 
+    #     desc: Generate sql code
+    #     cmds:
+    #     - sqlc generate
+
+    # spostgres:
+    #     desc: Docker - Start Postgress db with permanent storage
+    #     cmds:
+    #     - docker run --rm --name postgres14 --network simple-bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d -v postgres:/var/lib/postgresql/data postgres:14-alpine 
+
+    # sapi:
+    #     desc: Docker - Start simplebank api image 
+    #     cmds:
+    #     - docker container run --rm --name simplebank --network simple-bank-network -p 8080:8080 -e GIN_MODE=release -e "DB_SOURCE=postgresql://root:secret@postgres14:5432/simple_bank?sslmode=disable" simplebank:latest
+
+    # test: 
+    #     desc: Run test code
+    #     cmds:
+    #     - go test -v -cover ./...
+
+    # usedb:
+    #     desc: Docker - Use simple_bank db
+    #     cmds:
+    #     - docker exec -it postgres14 psql -U root -d simple_bank
+
+
+    # di:
+    #     desc: Docker - Test for interactive container
+    #     cmds:
+    #     - docker container run --rm -it simplebank sh
+    
+

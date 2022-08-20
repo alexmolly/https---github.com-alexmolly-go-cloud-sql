@@ -2,11 +2,12 @@ package db
 
 import (
 	"fmt"
-	"github.com/arifluthfi16/gomvcboilerplate/model"
-	"github.com/arifluthfi16/gomvcboilerplate/config"
+	"log"
+
+	"github.com/alexmolly/gomvcboilerplate/config"
+	"github.com/alexmolly/gomvcboilerplate/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 )
 
 func LoadDB(config config.DBConf) *gorm.DB {
@@ -23,9 +24,9 @@ func LoadDB(config config.DBConf) *gorm.DB {
 	return db
 }
 
-func DBMigrate (db *gorm.DB){
+func DBMigrate(db *gorm.DB) {
 	var err error
-	for _,model := range model.RegisterModels(){
+	for _, model := range model.RegisterModels() {
 		err = db.Debug().AutoMigrate(model.Model)
 		if err != nil {
 			log.Fatal(err)

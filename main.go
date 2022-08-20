@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/arifluthfi16/gomvcboilerplate/config"
-	"github.com/arifluthfi16/gomvcboilerplate/routers"
-	"github.com/arifluthfi16/gomvcboilerplate/services"
-	"github.com/arifluthfi16/gomvcboilerplate/services/db"
+	"os"
+
+	"github.com/alexmolly/gomvcboilerplate/config"
+	"github.com/alexmolly/gomvcboilerplate/routers"
+	"github.com/alexmolly/gomvcboilerplate/services"
+	"github.com/alexmolly/gomvcboilerplate/services/db"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"os"
 )
 
 type Server struct {
@@ -34,8 +35,8 @@ func (server *Server) Run() {
 		port = "8080"
 	}
 	fmt.Println("Rise and shine! 🌞🌞🌞")
-	fmt.Println(config.ServerConfig.AppConfig.AppName + " is listening on port : "+port)
-	server.Router.Run(":"+port)
+	fmt.Println(config.ServerConfig.AppConfig.AppName + " is listening on port : " + port)
+	server.Router.Run(":" + port)
 
 }
 func main() {
